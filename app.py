@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import os
 from streamlit_lottie import st_lottie
 
 
@@ -23,14 +24,24 @@ def load_lottie_url(url: str):
 
 
 # Function to fetch the poster using the OMDb API
+
 def fetch_poster(movie_title):
-    api_key = '462ae3c0'
+    # Check for environment variable and fallback to hardcoded key for testing
+    api_key = os.getenv('OMDB_API_KEY', '462ae3c0')  # Remove the hardcoded key before deployment
     url = f'http://www.omdbapi.com/?t={movie_title}&apikey={api_key}'
-    response = requests.get(url)
-    data = response.json()
-    if data['Response'] == 'True':
-        return data.get('Poster')
-    return None
+
+    try:
+        response = requests.get(url)
+        data = response.json()
+
+        if response.status_code == 200 and data.get("Poster") and data["Poster"] != "N/A":
+            return data["Poster"]
+        else:
+            print(f"No poster found for {movie_title}. Response: {data}")
+            return None
+    except Exception as e:
+        print(f"Error fetching poster: {e}")
+        return None
 
 
 # Function to get movie recommendations
