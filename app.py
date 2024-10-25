@@ -102,7 +102,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("""
-    <a href="https://www.instagram.com/prasann2003" target="_blank">
+    <a href="https://www.instagram.com/prasann_choudhary29" target="_blank">
         <button style="background-color: #E1306C; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Instagram</button>
     </a>
     """, unsafe_allow_html=True)
